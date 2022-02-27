@@ -1,6 +1,4 @@
-setwd("C:/Users/faust/Desktop/R Codes")
 
-# 
 # install.packages(c("readxl","zoo","urca","sandwich","vars",
 #                    "svars","tseries","tsDyn","dplyr","minqa","HI","mvnfast",
 #                    "VARsignR","ggplot2","plotly","hrbrthemes","xtable","stargazer",
@@ -8,7 +6,7 @@ setwd("C:/Users/faust/Desktop/R Codes")
 #                    "flexdashboard", "DT", "rmarkdown", "tinytex", "tidyverse",
 #                    "lubridate", "plotly", "knitr", "roll", "Rcpp","Quandl",
 #                    "KFAS","GetBCBData","seasonal","openxlsx","writexl"))
-
+library(readr)
 library(readxl)
 library(vars)
 library(svars)
@@ -29,9 +27,10 @@ rm(list=ls()) #clean the workspace.
 cat("\014")
 
 
-##puxando dados
-Base_FX <- read_excel("Fausto_brl.xlsx",  sheet = "Sheet2")
 
+##puxando dados
+Base_FX <- read_excel("dados.xlsx",  sheet = "Sheet2")
+#Base_FX <- read_csv("C:/Users/faust/Desktop/R codes/Project-Exchange/dados3.csv")
 ## Definindo variaveis 
 Data <- Base_FX$Dates
 n <- length(Data)
@@ -71,19 +70,18 @@ plot(Data, scale(f1), type = "l", col = "black", ylim = c(-2,3), ylab = "", xlab
 
 
 ## equilibrio
-
 ols <- lm(BRL ~ CLP + COP + MXN + ZAR)
 summary(ols)
 ect <-scale(ols$residuals)
 
 
 
-plot(Data, ect, type = "l", col = "red", ylim = c(-3,4), ylab = "", xlab = "")
+plot(Data, ect, type = "l", col = "red", ylim = c(-3,4), ylab = "Std Deviation from the Mean", xlab = "")
 abline(h = -2, col = "black", lty = 2)
 abline(h = 0, col = "black", lty = 3)
 abline(h = 2, col = "black", lty = 2)
 #abline(h = scale(ect2_BRL)[n-i+1], col = "brown2", lty = 2)
-legend("topleft", c(" BRL - BRL(pares) "),lwd=1,
+legend("topleft", c("ECT = BRL - BRL(pairs) "),lwd=1,
               col=c("red"), cex = 0.72,bty = "n",xjust=1, lty = c(1))
 
 
@@ -109,5 +107,5 @@ pp.test(ZAR)
 pp.test(ect) # rejeita h0 de raiz unitaria
 
 
-hist(ect)
+hist(ect, main = "Histogram of ECT", xlab = "Std. Deviation of ECT")
 
