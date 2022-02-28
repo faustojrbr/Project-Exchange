@@ -11,7 +11,7 @@ Guide for acessing VM:
 gcloud compute ssh --zone "us-central1-a" "my-vm"  --project "bubbly-anvil-267818"
 
 2) Set the password to 12345
-3) Run image on the VM: docker run faustojrbr/repo:image
+3) Pull and Run image on the VM: docker run faustojrbr/repo:image
 
 
 
